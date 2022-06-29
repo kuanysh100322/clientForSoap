@@ -1,0 +1,56 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.javaspringclub.com/movies-ws" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.javaspringclub.com/movies-ws" targetNamespace="http://www.javaspringclub.com/movies-ws">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.javaspringclub.com/movies-ws">
+            <xs:element name="getUsersRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="iin" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getUsersResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="user" type="tns:user"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="user">
+                <xs:sequence>
+                    <xs:element name="iin" type="xs:long"/>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="date" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getUsersResponse">
+        <wsdl:part element="tns:getUsersResponse" name="getUsersResponse"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getUsersRequest">
+        <wsdl:part element="tns:getUsersRequest" name="getUsersRequest"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="UsersPort">
+        <wsdl:operation name="getUsers">
+            <wsdl:input message="tns:getUsersRequest" name="getUsersRequest"> </wsdl:input>
+            <wsdl:output message="tns:getUsersResponse" name="getUsersResponse"> </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="UsersPortSoap11" type="tns:UsersPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getUsers">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="getUsersRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getUsersResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="UsersPortService">
+        <wsdl:port binding="tns:UsersPortSoap11" name="UsersPortSoap11">
+            <soap:address location="http://localhost:8080/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
